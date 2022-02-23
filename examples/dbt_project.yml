@@ -1,0 +1,63 @@
+
+
+name: 'my_corporate_package'
+version: '1.0.0'
+config-version: 2
+require-dbt-version: ">=1.0.0"
+
+
+# we use redshift warehouse
+profile: 'rasa_semantic_schema_redshift'
+
+
+# example how to override a model from rasa_semantic_schema
+# this disables the load_ids model from base package to let it be overridden
+models:
+  rasa_semantic_schema:
+    staging:
+      load_ids:
+        +enabled: false
+
+
+# allow to override macros in my_corporate_package project
+dispatch:
+  - macro_namespace: rasa_semantic_schema
+    search_order: ['my_corporate_package', 'rasa_semantic_schema']
+
+
+
+# you can override any variable from rasa_semantic_schema package
+vars:
+  count_metrics:
+    # below are standard model performance metrics that could be useful regardless of particular bot business logic
+    - intent_out_of_scope:
+      # user wants something that bot understands but cannot do
+      - out_of_scope
+    - intent_nlu_fallback:
+      # (bot does not understand what user wants. that's low confidence situation
+      - nlu_fallack
+    - action_default_fallback:
+      # bot got into situation that does not know what to do next. so there's a problem in the story
+      - action_default_fallback
+    - action_unlikely_intent:
+      #  flag a particular intent at particular step in conversation as unexpected
+      - action_unlikely_intent
+
+    # below are additional metrics ie. to count handoffs
+    - intents_confusion:
+      # intents indicating that user is frustrated, angry, disappointed with the service
+      - react_confused
+      - intent_hesitates
+
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
