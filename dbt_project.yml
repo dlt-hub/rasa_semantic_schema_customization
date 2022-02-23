@@ -1,0 +1,77 @@
+name: 'rasa_semantic_schema_quickstart'
+version: '1.0.0'
+config-version: 2
+require-dbt-version: ">=1.0.0"
+
+
+# provide a profile name to access particular warehouse, following profiles are available
+# - rasa_semantic_schema_redshift to access Redshift warehouse
+# - rasa_semantic_schema_bigquery to access BigQuery via environment variables (keyfile_json)
+# - rasa_semantic_schema_bigquery_service_file to access BigQuery via service account file
+# profile: 'rasa_semantic_schema_redshift'
+
+
+vars:
+
+  # configure external sessions and user ids
+
+  # the session_started and user events fields used to identify users
+  # use sender_id if no additional information is passed
+  user_id: 'sender_id'
+  # external session identifier passed into session_started and user events
+  # use sender_id if no such session is passed
+  external_session_id: 'sender_id'
+
+
+  # in dictionary below you can configure metrics based on count of occurences intents or actions
+  # in conversations or sections
+
+  count_metrics:
+    # below are standard model performance metrics that could be useful regardless of particular bot business logic
+    - intent_out_of_scope:
+      # user wants something that bot understands but cannot do
+      - out_of_scope
+    - intent_nlu_fallback:
+      # (bot does not understand what user wants. that's low confidence situation
+      - nlu_fallack
+    - action_default_fallback:
+      # bot got into situation that does not know what to do next. so there's a problem in the story
+      - action_default_fallback
+    - action_unlikely_intent:
+      #  flag a particular intent at particular step in conversation as unexpected
+      - action_unlikely_intent
+
+    # below are additional metrics ie. to count handoffs
+    - intents_frustrated:
+      # intents indicating that user is frustrated, angry, disappointed with the service
+      - react_frustrated
+    - intents_happy:
+      # intents indicating that user is happy with the service
+      - thankyou
+    - intents_raise_dispute:
+      # intents indicating that bot didn't perform as expected by the user and bot's action is disputed
+      - raise_dispute
+    - actions_agent_handoff:
+      # actions indicating that user was redirected to human agent / outside service
+      - utter_redirect_to_faqs
+      - action_agent_handoff
+
+
+# allow to override rasa_semantic_schema macros in the rasa_semantic_schema_quickstart
+# rename rasa_semantic_schema_quickstart if you change the name of the project
+dispatch:
+  - macro_namespace: rasa_semantic_schema
+    search_order: ['rasa_semantic_schema_quickstart', 'rasa_semantic_schema']
+
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
