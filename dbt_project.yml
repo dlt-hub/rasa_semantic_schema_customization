@@ -1,4 +1,4 @@
-name: 'rasa_semantic_schema_quickstart'
+name: 'rasa_semantic_schema_customization'
 version: '1.0.0'
 config-version: 2
 require-dbt-version: ">=1.0.0"
@@ -23,7 +23,7 @@ vars:
   external_session_id: 'sender_id'
 
 
-  # in dictionary below you can configure metrics based on count of occurences intents or actions
+  # in dictionary below you can configure metrics based on count of occurrences intents or actions
   # in conversations or sections
 
   count_metrics:
@@ -33,7 +33,7 @@ vars:
       - out_of_scope
     - intent_nlu_fallback:
       # (bot does not understand what user wants. that's low confidence situation
-      - nlu_fallack
+      - nlu_fallback
     - action_default_fallback:
       # bot got into situation that does not know what to do next. so there's a problem in the story
       - action_default_fallback
@@ -56,12 +56,21 @@ vars:
       - utter_redirect_to_faqs
       - action_agent_handoff
 
+  # a list of intents that indicate starting a story/skill, available on interaction and session level
+  story_intents:
+    - request_limit_change
+    - enquire_transaction_failure
+    - request_transaction_refund
+    - view_bill_details
+    - view_transactions
+    - view_user_details
 
-# allow to override rasa_semantic_schema macros in the rasa_semantic_schema_quickstart
-# rename rasa_semantic_schema_quickstart if you change the name of the project
+
+# allow to override rasa_semantic_schema macros in the rasa_semantic_schema_customization
+# rename rasa_semantic_schema_customization if you change the name of the project
 dispatch:
   - macro_namespace: rasa_semantic_schema
-    search_order: ['rasa_semantic_schema_quickstart', 'rasa_semantic_schema']
+    search_order: ['rasa_semantic_schema_customization', 'rasa_semantic_schema']
 
 
 model-paths: ["models"]
