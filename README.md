@@ -13,7 +13,7 @@ All commands, customizations and other information found in the aforementioned `
 
 In order to customize the package you should do the following:
 
-1. Clone this repository. It becomes your own DBT package now that you can extend in the future.
+1. Clone this repository or use it as [Github Template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). It becomes your own DBT package now that you can extend in the future.
 2. Customize the clone. [Several customizations](https://github.com/scale-vector/rasa_semantic_schema#package-customizations) are accessible via variables in `dbt_project.yml` file.
 3. Push your clone (to github or other origin that can be shared)
 4. Go back to the deployment procedure and provide url to your cloned repo [here](https://github.com/scale-vector/rasa_data_ingestion_deployment/blob/master/autopoiesis/DEPLOYMENT.md#dbt-package-configuration).

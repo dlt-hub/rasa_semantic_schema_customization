@@ -1,3 +1,3 @@
 packages:
-  - git: "git@github.com:scale-vector/rasa_semantic_schema.git"
+  - git: "https://github.com/scale-vector/rasa_semantic_schema.git"
     revision: 1.0.1
