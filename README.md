@@ -29,7 +29,7 @@ packages:
     revision: 1.0.1
 ```
 
-Please refer to [Package Versioning)[https://github.com/scale-vector/rasa_semantic_schema#package-versioning] for information on semantic versioning of the base package.
+Please refer to [Package Versioning](https://github.com/scale-vector/rasa_semantic_schema#package-versioning) for information on semantic versioning of the base package.
 
 ## Package Customization
 You can modify the package without changing the models or writing additional SQL. Please read [here](https://github.com/scale-vector/rasa_semantic_schema#package-customizations) on available customizations.
